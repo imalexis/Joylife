@@ -7,10 +7,27 @@
 
 import SwiftUI
 
+
+// Response -> State
+class ContentViewState: ObservableObject {
+    @Published var isLogin: Bool
+
+
+    init(isLogin: Bool) {
+        self.isLogin = isLogin
+    }
+}
+
 struct ContentView: View {
+    @StateObject var contentViewState: ContentViewState = ContentViewState(isLogin: false)
+
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        if contentViewState.isLogin {
+            MainView()
+        } else {
+//            WelcomePage(isLogin: $contentViewState.isLogin)
+            WelcomePage().environmentObject(contentViewState)
+        }
     }
 }
 
